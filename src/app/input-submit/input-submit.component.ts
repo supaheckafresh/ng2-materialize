@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-input-submit, [app-input-submit]',
@@ -10,8 +10,8 @@ export class InputSubmitComponent implements OnInit {
   constructor() { }
 
   @Input() message;
+  @Output() update = new EventEmitter();
 
   ngOnInit() {
   }
-
 }

@@ -8,12 +8,14 @@ import { InputSubmitComponent } from './input-submit/input-submit.component';
 import { InputFormComponent } from './input-form/input-form.component';
 import { MessageService } from './services/message.service';
 import { FormsModule } from '@angular/forms';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     InputSubmitComponent,
-    InputFormComponent
+    InputFormComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
