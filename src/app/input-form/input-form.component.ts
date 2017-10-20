@@ -1,32 +1,43 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../services/message.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-input-form',
   template: `
-    <div class="row">
-        <h4 class="col s12">Messages Form</h4>
-    </div>
-    <ul *ngIf="messages.length"
-        materialize="collapsible"
-        class="collapsible"
-        data-collapsible="accordion">
-        <li *ngFor="let message of messages"
-            app-input-submit
-            [message]="message">
-        </li>
-    </ul>
-    <div *ngIf="!messages.length">No messages.</div>
+      <div class="row">
+          <h4 class="col s12">Messages Form</h4>
+      </div>
+      <ul *ngIf="messages.length"
+          materialize="collapsible"
+          class="collapsible"
+          data-collapsible="accordion">
+          <li *ngFor="let message of messages"
+              app-input-submit
+              [id]="message.id"
+              [message]="message.text"
+              (update)="onUpdate($event)">
+          </li>
+      </ul>
+      <div *ngIf="!messages.length">No messages.</div>
   `,
   styles: []
 })
 export class InputFormComponent implements OnInit {
 
-  constructor(private message: MessageService) { }
+  constructor(private message: MessageService) {
+  }
 
   messages = this.message.messages;
 
   ngOnInit() {
   }
 
+  onUpdate(message): void {
+    _(this.messages)
+      .chain()
+      .find(['id', message.id])
+      .thru(msg => this.message.messages.splice(_.indexOf(this.messages, msg), 1, message))
+      .value();
+  }
 }

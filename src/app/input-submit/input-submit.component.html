@@ -1,7 +1,7 @@
+<div class="collapsible-header input-field">
+    <i class="material-icons">whatshot</i>{{ id }}
+</div>
 <div class="collapsible-body left-align">
     <input [(ngModel)]="message" type="text">
-    <button (click)="update.emit(message)">Submit</button>
+    <button (click)="update.emit({ id: id, text: message })">Submit</button>
 </div>
-
-
-

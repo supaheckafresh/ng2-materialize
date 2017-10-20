@@ -9,6 +9,7 @@ export class InputSubmitComponent implements OnInit {
 
   constructor() { }
 
+  @Input() id;
   @Input() message;
   @Output() update = new EventEmitter();
 

@@ -5,7 +5,7 @@ import { MessageService } from '../services/message.service';
   selector: 'app-messages',
   template: `
     <ul *ngIf="messages.length">
-        <li *ngFor="let message of messages">{{message}}</li>
+        <li *ngFor="let message of messages">{{message.text}}</li>
     </ul>
     <div *ngIf="!messages.length">No messages.</div>
   `,
