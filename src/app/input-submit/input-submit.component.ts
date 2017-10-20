@@ -1,4 +1,5 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { MessageService } from '../services/message.service';
 
 @Component({
   selector: 'app-input-submit, [app-input-submit]',
@@ -7,11 +8,10 @@ import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 })
 export class InputSubmitComponent implements OnInit {
 
-  constructor() { }
+  constructor(public messageService: MessageService) { }
 
   @Input() id;
   @Input() message;
-  @Output() update = new EventEmitter();
 
   ngOnInit() {
   }

@@ -9,7 +9,7 @@ import * as _ from 'lodash';
           <li *ngFor="let message of messages">{{message.text}}</li>
       </ul>
       <div *ngIf="!messages.length">No messages.</div>
-      <app-input-form (update)="onUpdate($event)"></app-input-form>
+      <app-input-form></app-input-form>
   `,
   styles: []
 })
@@ -17,6 +17,7 @@ import * as _ from 'lodash';
 export class MessagesComponent implements OnInit {
 
   constructor(private message: MessageService) {
+    this.message.messageSubject.subscribe(this.onUpdate.bind(this));
   }
 
   messages = this.message.messages;
@@ -25,6 +26,7 @@ export class MessagesComponent implements OnInit {
   }
 
   onUpdate(message): void {
+    console.log('HERE', message);
     _(this.messages)
       .chain()
       .find([ 'id', message.id ])

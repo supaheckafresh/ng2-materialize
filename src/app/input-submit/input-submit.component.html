@@ -3,5 +3,5 @@
 </div>
 <div class="collapsible-body left-align">
     <input [(ngModel)]="message" type="text">
-    <button (click)="update.emit({ id: id, text: message })">Submit</button>
+    <button (click)="messageService.update({ id: id, text: message })">Submit</button>
 </div>
