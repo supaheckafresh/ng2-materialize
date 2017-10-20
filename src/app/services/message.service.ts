@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import * as _ from 'lodash';
 
 @Injectable()
 export class MessageService {
@@ -16,5 +17,11 @@ export class MessageService {
 
   public update(message): void {
     this.messageSubject.next(message);
+
+    _(this.messages)
+      .chain()
+      .find([ 'id', message.id ])
+      .thru(msg => this.messages.splice(_.indexOf(this.messages, msg), 1, message))
+      .value();
   }
 }

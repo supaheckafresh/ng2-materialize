@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from '../services/message.service';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'app-messages',
@@ -26,11 +25,7 @@ export class MessagesComponent implements OnInit {
   }
 
   onUpdate(message): void {
+    // todo
     console.log('HERE', message);
-    _(this.messages)
-      .chain()
-      .find([ 'id', message.id ])
-      .thru(msg => this.messages.splice(_.indexOf(this.messages, msg), 1, message))
-      .value();
   }
 }
