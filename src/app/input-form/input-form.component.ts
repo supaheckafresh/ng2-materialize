@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { MessageService } from '../services/message.service';
 import * as _ from 'lodash';
 
@@ -16,7 +16,7 @@ import * as _ from 'lodash';
               app-input-submit
               [id]="message.id"
               [message]="message.text"
-              (update)="onUpdate($event)">
+              (update)="update.emit($event)">
           </li>
       </ul>
       <div *ngIf="!messages.length">No messages.</div>
@@ -28,16 +28,10 @@ export class InputFormComponent implements OnInit {
   constructor(private message: MessageService) {
   }
 
+  @Output() update = new EventEmitter();
+
   messages = this.message.messages;
 
   ngOnInit() {
-  }
-
-  onUpdate(message): void {
-    _(this.messages)
-      .chain()
-      .find(['id', message.id])
-      .thru(msg => this.message.messages.splice(_.indexOf(this.messages, msg), 1, message))
-      .value();
   }
 }
