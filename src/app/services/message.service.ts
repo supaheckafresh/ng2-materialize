@@ -10,18 +10,24 @@ export class MessageService {
   public messages = [
     { id: 1, text: 'message 1' },
     { id: 2, text: 'message 2' },
-    { id: 3, text: 'message 3' }
+    { id: 3, text: 'message 3' },
+    { id: 4, text: 'four' },
+    { id: 5, text: 'cinco' }
   ];
 
   public messageSubject: BehaviorSubject<object> = new BehaviorSubject(this.messages[this.messages.length - 1]);
 
   public update(message): void {
-    this.messageSubject.next(message);
+    this.broadcast(message);
 
     _(this.messages)
       .chain()
       .find([ 'id', message.id ])
-      .thru(msg => this.messages.splice(_.indexOf(this.messages, msg), 1, message))
+      .thru(msg => _.assign(msg, message))
       .value();
+  }
+
+  private broadcast(message): void {
+    this.messageSubject.next(message);
   }
 }
