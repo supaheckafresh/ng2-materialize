@@ -5,12 +5,21 @@ import { MessageService } from '../services/message.service';
   selector: 'app-messages',
   template: `
       <ul *ngIf="messages.length">
-          <li *ngFor="let message of messages">{{message.text}}</li>
+          <li *ngFor="let message of messages"
+              [ngClass]="{ updated: wasUpdated(message.id) }">
+              {{message.text}}
+          </li>
       </ul>
       <div *ngIf="!messages.length">No messages.</div>
       <app-input-form></app-input-form>
   `,
-  styles: []
+  styles: [
+    `
+      .updated {
+          font-weight: bold;
+      }
+    `
+  ]
 })
 
 export class MessagesComponent implements OnInit {
@@ -20,12 +29,17 @@ export class MessagesComponent implements OnInit {
   }
 
   messages = this.message.messages;
+  lastUpdatedId = null;
 
   ngOnInit() {
+    this.lastUpdatedId = null;
   }
 
-  onUpdate(message): void {
-    // todo
-    console.log('HERE', message);
+  public wasUpdated(messageId): boolean {
+    return this.lastUpdatedId === messageId;
+  }
+
+  private onUpdate(message): void {
+    this.lastUpdatedId = message.id;
   }
 }
