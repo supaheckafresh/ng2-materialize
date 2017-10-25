@@ -8,7 +8,8 @@ import { MessageService } from '../services/message.service';
       <ul *ngIf="messages.length">
           <li *ngFor="let message of messages"
               [ngClass]="{ updated: wasUpdated(message.id) }"
-              [@updated]="wasUpdated(message.id)">
+              [@updated]="animateMessage(message.id)"
+              (@updated.done)="updatedDone()">
               {{message.text}}
           </li>
       </ul>
@@ -27,7 +28,7 @@ import { MessageService } from '../services/message.service';
       state('true', style({ transform: 'scale(1)' })),
       transition('* => true', animate(200, keyframes([
         style({ transform: 'scale(1.3)', offset: 0 }),
-        style({ transform: 'scale(1.1}', color: 'green', offset: 0.1 }),
+        style({ transform: 'scale(1.1)', color: 'green', offset: 0.1 }),
         style({ transform: 'scale(1)', color: 'black', offset: 1.0 })
       ])))
     ])
@@ -42,9 +43,18 @@ export class MessagesComponent implements OnInit {
 
   messages = this.message.messages;
   lastUpdatedId = null;
+  _animate = null;
 
   ngOnInit() {
     this.lastUpdatedId = null;
+  }
+
+  public animateMessage(messageId): boolean {
+    return this._animate === messageId;
+  }
+
+  public updatedDone(): void {
+    this._animate = null;
   }
 
   public wasUpdated(messageId): boolean {
@@ -53,5 +63,6 @@ export class MessagesComponent implements OnInit {
 
   private onUpdate(message): void {
     this.lastUpdatedId = message.id;
+    this._animate = message.id;
   }
 }
