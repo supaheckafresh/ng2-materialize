@@ -39,18 +39,18 @@ export class MessagesComponent implements OnInit {
 
   messages = this.message.messages;
   lastUpdatedId = null;
-  _animate = null;
+  _animate = false;
 
   ngOnInit() {
     this.lastUpdatedId = null;
   }
 
   public animateMessage(messageId): boolean {
-    return this._animate === messageId;
+    return this._animate && this.wasUpdated(messageId);
   }
 
   public updatedDone(): void {
-    this._animate = null;
+    this._animate = false;
   }
 
   public wasUpdated(messageId): boolean {
@@ -59,6 +59,6 @@ export class MessagesComponent implements OnInit {
 
   private onUpdate(message): void {
     this.lastUpdatedId = message.id;
-    this._animate = message.id;
+    this._animate = true;
   }
 }
