@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
 import { MessageService } from '../services/message.service';
 
 @Component({
@@ -6,7 +7,7 @@ import { MessageService } from '../services/message.service';
   template: `
       <ul *ngIf="messages.length">
           <li *ngFor="let message of messages"
-              [ngClass]="{ updated: wasUpdated(message.id) }">
+              [ngClass]="{ updated: wasUpdated(message.id) }" [@messageState]="messageState(message)">
               {{message.text}}
           </li>
       </ul>
@@ -14,11 +15,21 @@ import { MessageService } from '../services/message.service';
       <app-input-form></app-input-form>
   `,
   styles: [
+      `
+          .updated {
+              font-weight: bold;
+          }
     `
-      .updated {
-          font-weight: bold;
-      }
-    `
+  ],
+  animations: [
+    trigger('messageState', [
+      state('active', style({ transform: 'scale(1)' })),
+      transition('inactive => active', animate(200, keyframes([
+        style({ transform: 'scale(1.3)', offset: 0 }),
+        style({ transform: 'scale(1.1}', color: 'green', offset: 0.1 }),
+        style({ transform: 'scale(1)', color: 'black', offset: 1.0 })
+      ])))
+    ])
   ]
 })
 
@@ -33,6 +44,10 @@ export class MessagesComponent implements OnInit {
 
   ngOnInit() {
     this.lastUpdatedId = null;
+  }
+
+  public messageState(message): string {
+    return this.wasUpdated(message.id) ? 'active' : 'inactive';
   }
 
   public wasUpdated(messageId): boolean {

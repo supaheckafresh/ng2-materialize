@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 
 import { MaterializeModule } from 'angular2-materialize';
@@ -19,6 +20,7 @@ import { MessagesComponent } from './messages/messages.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     MaterializeModule
   ],
