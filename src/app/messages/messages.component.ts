@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { trigger, state, style, animate, transition, keyframes } from '@angular/animations';
+import { trigger, state, style, transition } from '@angular/animations';
+
+import { Animations } from '../animations/animations';
 import { MessageService } from '../services/message.service';
+
 
 @Component({
   selector: 'app-messages',
@@ -8,8 +11,8 @@ import { MessageService } from '../services/message.service';
       <ul *ngIf="messages.length">
           <li *ngFor="let message of messages"
               [ngClass]="{ updated: wasUpdated(message.id) }"
-              [@updated]="animateMessage(message.id)"
-              (@updated.done)="updatedDone()">
+              [@messageUpdated]="animateMessage(message.id)"
+              (@messageUpdated.done)="updatedDone()">
               {{message.text}}
           </li>
       </ul>
@@ -24,14 +27,7 @@ import { MessageService } from '../services/message.service';
     `
   ],
   animations: [
-    trigger('updated', [
-      state('true', style({ transform: 'scale(1)' })),
-      transition('* => true', animate(200, keyframes([
-        style({ transform: 'scale(1.3)', offset: 0 }),
-        style({ transform: 'scale(1.1)', color: 'green', offset: 0.1 }),
-        style({ transform: 'scale(1)', color: 'black', offset: 1.0 })
-      ])))
-    ])
+    trigger('messageUpdated', [  transition('* => true', Animations.POP_OUT) ])
   ]
 })
 
